@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # assignment-1-MoMagDii
 =======
 # aesd-assignments
@@ -30,3 +31,6 @@ As a part of the assignment instructions, you will setup your assignment repo to
 
 Note that the unit tests will fail on this repository, since assignments are not yet implemented.  That's your job :) 
 >>>>>>> assignments-base/master
+=======
+# assignment-2-MoMagDii
+>>>>>>> bc4a020692ead1ac1b5f835e2d7b53ac00505ea7

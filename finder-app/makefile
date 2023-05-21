@@ -12,6 +12,6 @@ writer:
 	$(CROSS_COMPILE)gcc $(CFLAGS) -o writer writer.c
 
 clean:
-	rm writer
+	
 
 

@@ -30,12 +30,12 @@ MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines a
 
 echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
 ####
-#rm -rf "${WRITEDIR}"
+rm -rf "${WRITEDIR}"
 
 # create $WRITEDIR if not assignment1
 assignment=`cat ../conf/assignment.txt`
 
-if [ $assignment != 'assignment2' ]
+if [ $assignment != 'assignment1' ]
 then
 	mkdir -p "$WRITEDIR"
 
@@ -50,7 +50,7 @@ then
 	fi
 fi
 #echo "Removing the old writer utility and compiling as a native application"
-#make clean
+make clean
 make
 
 for i in $( seq 1 $NUMFILES)
@@ -63,8 +63,8 @@ OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
 
 # remove temporary directories
 #####
-#rm -rf /tmp/aeld-data
-# make clean
+rm -rf /tmp/aeld-data
+
 set +e
 echo ${OUTPUTSTRING} | grep "${MATCHSTR}"
 if [ $? -eq 0 ]; then

@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# assignment-1-MoMagDii
+
+# assignment-2-MoMagDii
 =======
 # aesd-assignments
 This repo contains public starter source code, scripts, and documentation for Advanced Embedded Software Development (ECEN-5713) and Advanced Embedded Linux Development assignments University of Colorado, Boulder.

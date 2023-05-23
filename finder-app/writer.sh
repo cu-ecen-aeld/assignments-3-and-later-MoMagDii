@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # Nested if statements
 if [ $# -eq 2 ]

@@ -1,5 +1,11 @@
 #include "systemcalls.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <fcntl.h>
 
+#define _XOPEN_SOURCE   /* if we want WEXITSTATUS, etc. */
 /**
  * @param cmd the command to execute with system()
  * @return true if the command in @param cmd was executed
@@ -16,8 +22,13 @@ bool do_system(const char *cmd)
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
-
-    return true;
+    int ret = system(cmd);
+    if(ret == -1 || !WIFEXITED(ret)){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 /**
@@ -58,9 +69,27 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
-
+    int fork_pid = fork();
+        if (fork_pid == 0) {
+            // Child process
+            execv(command[0], command);
+            perror("execv error : ");
+            exit( EXIT_FAILURE);
+        }
+        int wait_status;
+        int wait_ret = wait(&wait_status);
+        if(wait_ret  == -1){
+            perror("wait error: ");
+        }
+        else {
+            if (WEXITSTATUS(wait_status) != EXIT_SUCCESS){
+                return false;
+            }
+            else if (WIFSIGNALED(wait_status) != EXIT_SUCCESS){
+                    return false;
+            }
+        }
     va_end(args);
-
     return true;
 }
 
@@ -92,8 +121,32 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *   The rest of the behaviour is same as do_exec()
  *
 */
-
+    int fork_pid = fork();
+    if (fork_pid == 0)
+    {
+        int fd = open(outputfile, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+        if (fd < 0) {
+            perror("open");
+            return false;
+        }
+        if (dup2(fd, 1) < 0) { perror("dup2"); exit(EXIT_FAILURE); }
+        close(fd);
+        execv(command[0], command);
+        perror("execv");
+        exit(EXIT_FAILURE);
+    }
+    int wait_status;
+   int wait_ret =  wait(&wait_status);
+   if(wait_ret  == -1){
+       perror("wait error: ");
+       return false;
+   }
+    if (WEXITSTATUS(wait_status) != EXIT_SUCCESS){
+        return false;
+    }
+    else if (WIFSIGNALED(wait_status) != EXIT_SUCCESS){
+            return false;
+    }
     va_end(args);
-
     return true;
 }

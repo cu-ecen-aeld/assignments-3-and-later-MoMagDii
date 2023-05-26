@@ -29,12 +29,11 @@ fi
 MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}"
 
 echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
-#### avoided on assignment 4 part 2 buildroot , to avoid removing the writed file for assignment
-#rm -rf "${WRITEDIR}"
+rm -rf "${WRITEDIR}"
 
 # create $WRITEDIR if not assignment1
 #assignment=`cat ../conf/assignment.txt`
-assignment="assignment3"
+assignment='cat /etc/finder-app/conf/assignment.txt'
 
 if [ $assignment != 'assignment1' ]
 then
@@ -58,13 +57,14 @@ for i in $( seq 1 $NUMFILES)
 do
     #
 #    ./writer.sh "$WRITEDIR/${username}$i.txt" "$WRITESTR"
-    ./writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+#    ./writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+      writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
 done
 OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
 
 # remove temporary directories
 #####
-rm -rf /tmp
+#rm -rf /tmp
 
 set +e
 echo ${OUTPUTSTRING} | grep "${MATCHSTR}"

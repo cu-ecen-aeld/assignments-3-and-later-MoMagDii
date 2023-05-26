@@ -8,7 +8,7 @@ set -u
 
 NUMFILES=10
 WRITESTR=AELD_IS_FUN
-WRITEDIR=/tmp/
+WRITEDIR=/tmp/assignment4-result.txt
 username=$(cat  /etc/finder-app/conf/username.txt)
 
 if [ $# -lt 3 ]
@@ -29,8 +29,8 @@ fi
 MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}"
 
 echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
-####
-rm -rf "${WRITEDIR}"
+#### avoided on assignment 4 part 2 buildroot , to avoid removing the writed file for assignment
+#rm -rf "${WRITEDIR}"
 
 # create $WRITEDIR if not assignment1
 #assignment=`cat ../conf/assignment.txt`

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Nested if statements
 if [ $# -eq 2 ]
     then

@@ -14,5 +14,7 @@ write:
 clean:
 	rm -f writer
 
-all: write
+all:
+	rm -f writer
+	aarch64-none-linux-gnu-gcc $(CFLAGS) -o writer writer.c
 

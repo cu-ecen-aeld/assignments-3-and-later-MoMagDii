@@ -3,11 +3,22 @@
 # CWD:=$(shell pwd) 
 # OS:=$(shell uname) 
 # Recursively Expanded Variables 
-all :
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) writer.c -o writer $(TARGET) $(LDFLAGS)
+ifndef CROSS_COMPILE
+	CC=gcc
+else
+	CC=$(CROSS_COMPILE)gcc
+endif
 
-CROSS_COMPILE :
-	aarch64-none-linux-gnu-gcc writer.c -o writer
 
-clean :
-	rm -f writer
+INCLUDES:= -I ./include
+LIBS:=
+LDFLAGS += -L./libs
+
+all:	writer
+
+writer: writer.c
+	$(CC) $(INCLUDES) -c writer.c -o writer.o
+	$(CC) $(LIBS) $(LDFLAGS) writer.o -o writer
+
+clean:
+	rm -rf *.o writer

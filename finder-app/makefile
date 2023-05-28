@@ -4,7 +4,7 @@
 # OS:=$(shell uname) 
 # Recursively Expanded Variables 
 ifndef CROSS_COMPILE
-override CROSS_COMPILE=
+override CROSS_COMPILE=aarch64-none-linux-gnu-
 endif
 CFLAGS = -g -Wall  
 

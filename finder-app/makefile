@@ -3,18 +3,11 @@
 # CWD:=$(shell pwd) 
 # OS:=$(shell uname) 
 # Recursively Expanded Variables 
-ifndef CROSS_COMPILE
-override CROSS_COMPILE=aarch64-none-linux-gnu-
-endif
-CFLAGS = -g -Wall  
+all :
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) writer.c -o writer $(TARGET) $(LDFLAGS)
 
-write:
-	$(CROSS_COMPILE)gcc $(CFLAGS) -o writer writer.c
+CROSS_COMPILE :
+	aarch64-none-linux-gnu-gcc writer.c -o writer
 
-clean:
+clean :
 	rm -f writer
-
-all:
-	$(CROSS_COMPILE)gcc $(CFLAGS) -o writer writer.c
-
-

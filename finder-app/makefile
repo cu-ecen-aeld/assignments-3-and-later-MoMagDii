@@ -15,6 +15,6 @@ clean:
 	rm -f writer
 
 all:
-	aarch64-none-linux-gnu-gcc $(CFLAGS) -o writer writer.c
+	$(CROSS_COMPILE)gcc $(CFLAGS) -o writer writer.c
 
 

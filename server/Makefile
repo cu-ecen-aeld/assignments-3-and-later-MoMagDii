@@ -1,21 +1,21 @@
-CC = gcc
-CFLAGS= -Wall -Werror
-LDFLAGS=
-CROSS_COMPILE=
+ifndef CROSS_COMPILE
+	CC=gcc
+else
+	CC=$(CROSS_COMPILE)gcc
+endif
 
-EXECUTABLE=aesdsocket
-SOURCES=aesdsocket.c
-OBJECTS=$(SOURCES:.c=.o)
 
-all: $(EXECUTABLE) $(OBJECTS)
+INCLUDES:= -I ./include
+LIBS:=
+CFLAGS += -g -Wall -Werror
+LDFLAGS += -L./libs
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CROSS_COMPILE)$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+all:	aesdsocket
+default:aesdsocket
 
-$(OBJECTS): $(SOURCES)
-	$(CROSS_COMPILE)$(CC) $(CFLAGS) -c $<
-
+aesdsocket: aesdsocket.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c aesdsocket.c -o aesdsocket.o
+	$(CC) $(LIBS) $(LDFLAGS) aesdsocket.o -o aesdsocket
 
 clean:
-	rm -f $(EXECUTABLE) $(OBJECTS)
-
+	rm -rf *.o aesdsocket

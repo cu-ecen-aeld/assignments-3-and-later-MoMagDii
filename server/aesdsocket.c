@@ -16,7 +16,7 @@
 #include "queue.h"
 
 #define PORT 9000
-#define OUT_FILE "/var/tmp/aesdsocketdata"
+#define DATA_FILE "/var/tmp/aesdsocketdata"
 
 static int running = 1;
 pthread_mutex_t data_mutex;
@@ -230,8 +230,8 @@ int main(int argc, char* argv[])
     }
 
     // Open the data file
-    OUT_FILE= fopen(DATA_FILE, "a+");
-    if (OUT_FILE== NULL)
+    data_file = fopen(DATA_FILE, "a+");
+    if (data_file == NULL)
     {
         syslog(LOG_ERR, "Failed to open data file: %s", strerror(errno));
         exit(EXIT_FAILURE);

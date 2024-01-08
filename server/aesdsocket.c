@@ -59,7 +59,6 @@ void handle_signal(int signal)
     pthread_cancel(thread);
     pthread_join(thread, NULL);
 
-    printf("Thread signaled\n");
 
     // Clean up and exit
     fclose(data_file);
@@ -86,11 +85,11 @@ void *client_thread(void *arg)
     ssize_t bytes_received;
     size_t total_bytes_received = 0;
 
-    printf("New client thread!!\n");
+
 
     if (fileno(data_file) == -1)
     {
-        printf("Invalid file descriptor\n");
+
         // Handle the error or exit the loop
     }
 
@@ -102,7 +101,7 @@ void *client_thread(void *arg)
         pthread_mutex_unlock(&data_mutex);
 
         total_bytes_received += bytes_received;
-        printf("Total Received %zu bytes from client %s\n", total_bytes_received, client_ip);
+
 
         // Check for newline character to indicate end of packet
         if (strchr(buffer, '\n') != NULL)
@@ -115,16 +114,16 @@ void *client_thread(void *arg)
             while (fgets(buffer, sizeof(buffer), data_file) != NULL)
             {
                 int sent_bytes = send(client_fd, buffer, strlen(buffer), 0);
-                printf("Sent %d bytes to client %s\n", sent_bytes, client_ip);
+
             }
 
             if (feof(data_file))
             {
-                printf("End of file reached.\n");
+
             }
             else if (ferror(data_file))
             {
-                printf("Error occurred while reading from the file: %s\n", strerror(errno));
+
             }
 
             pthread_mutex_unlock(&data_mutex);
@@ -140,7 +139,7 @@ void *client_thread(void *arg)
     //thread_info->thread_id = pthread_self();
     //thread_info->completed = 1;
 
-    printf("Thread completed\n");
+
 
     //pthread_cancel(pthread_self());
     pthread_exit(NULL);
@@ -164,8 +163,6 @@ void *append_timestamp(void *arg)
         fputs(timestamp, data_file);
         fflush(data_file);
         pthread_mutex_unlock(&data_mutex);
-
-        printf("Timestamp: %s\n", timestamp);
 
         // Sleep for 10 seconds
         sleep(10);
@@ -199,7 +196,7 @@ int main(int argc, char* argv[])
     // Open the syslog
     openlog("aesdsocket", LOG_PID, LOG_USER);
 
-    printf("aesksocket starts\n");
+
 
     // Create the server socket
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -251,7 +248,7 @@ int main(int argc, char* argv[])
             return 0;
         }
 
-        printf("aesksocket daemon starts\n");
+
         // Child process continues
         umask(0);
         setsid();
@@ -310,7 +307,6 @@ int main(int argc, char* argv[])
         if (pthread_create(&thread_info->thread_id, NULL, client_thread, node_info) != 0)
         {
             syslog(LOG_ERR, "Failed to create client thread");
-            printf("Failed to create client thread");
             pthread_cancel(thread_info->thread_id);
             pthread_join(thread_info->thread_id, NULL);
             free(thread_info);
@@ -322,8 +318,6 @@ int main(int argc, char* argv[])
         SLIST_INSERT_HEAD(&thread_head, thread_info, entries);
     }
 
-    
-    printf("All threads completed");
 
     // Wait for all client threads to complete
     struct thread_node* thread_info;
